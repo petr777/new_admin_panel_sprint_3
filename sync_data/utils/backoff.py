@@ -32,7 +32,7 @@ def backoff(
                     return func(*args, **kwargs)
                 except Exception as err:
                     logger.error(
-                        f'При выполнение функции {func.__name__} ,произошла ошибка {err}'
+                        f'Функции не выполненна "{func.__name__}" ошибка {err}'
                     )
                     if sleep_time >= border_sleep_time:
                         sleep_time = border_sleep_time

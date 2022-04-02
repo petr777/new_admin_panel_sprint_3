@@ -18,3 +18,6 @@ SQLLITE_DB = join(dirname(__file__), 'db.sqlite')
 
 ELASTIC_USERNAME = os.environ.get('ELASTIC_USERNAME')
 ELASTIC_PASSWORD = os.environ.get('ELASTIC_PASSWORD')
+
+
+

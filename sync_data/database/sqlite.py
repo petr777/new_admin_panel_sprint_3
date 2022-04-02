@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+import datetime
 
 
 class SQLiteBase:
@@ -33,13 +34,9 @@ class SQLiteBase:
 
 class SQLiteMovies(SQLiteBase):
 
-    def get_many(self, table_name: str, skip: int = 0, limit: int = 100):
+    def get_many(self, table_name: str, state_date: datetime, skip: int = 0, limit: int = 100):
         sql = f"""SELECT * FROM {table_name}
-        ORDER BY id DESC LIMIT {limit} OFFSET {skip};"""
+        ORDER BY modified
+        where modified >= {state_date} 
+        LIMIT {limit} OFFSET {skip};"""
         return self.query(sql).fetchall()
-
-    def count_data(self, table_name: str):
-        """Функция получения количества записей в запрашиваемой таблице."""
-        sql = "SELECT Count() FROM %s" % table_name
-        query = self.query(sql)
-        return query.fetchone().get('Count()')

@@ -1,6 +1,6 @@
 from uuid import uuid4, UUID
 from datetime import datetime
-from typing import Optional, Union
+from typing import Optional, Union, List
 from pydantic import BaseModel, Field, FilePath
 
 
@@ -40,3 +40,16 @@ class Person_Film_Work(Base):
 class Genre_Film_Work(Base):
     film_work_id: UUID = Field(default_factory=uuid4)
     genre_id: UUID = Field(default_factory=uuid4)
+
+
+class ElasticMovies(BaseModel):
+    id: UUID = Field(default_factory=uuid4)
+    imdb_rating: Optional[float] = Field(default=0.0)
+    genre: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+    director: Optional[List[str]]
+    actors_names: Optional[List]
+    writers_names: Optional[List]
+    actors: Optional[List]
+    writers: Optional[List]
