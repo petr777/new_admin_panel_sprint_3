@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch, helpers
-
+import json
 
 class ElasticBase:
 
@@ -16,13 +16,29 @@ class ElasticBase:
 
 class ElasticMovies(ElasticBase):
 
+
+
+
     def set_bulk(self, index, data):
-        helpers.bulk(self.client, self.generate_elastic_data(index, data))
+        for doc in data:
+            self.client.index(
+                index=index, id=str(doc.id), document=doc.json()
+            )
 
 
-    def generate_elastic_data(self, index, data):
+
+        # for row in self.generate_data(index, data):
+        #     self.client.index(
+        #         index=index, id=row., document=doc
+        #     )
+        #     print(row)
+
+
+        # helpers.bulk(self.client, self.generate_elastic_data(index, data))
+
+
+    def generate_data(self, index, data):
         for item in data:
-            print(item)
             yield {
                 '_index': index,
                 '_id': str(item.id),

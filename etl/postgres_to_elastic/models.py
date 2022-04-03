@@ -9,6 +9,7 @@ import datetime
 
 
 class Movies(BaseModel):
+    #id: UUID = Field(default_factory=uuid4)
     film_work_id: UUID = Field(alias='fw_id')
     imdb_rating: Union[float, None] = Field(alias='rating', default=0.0)
     title: str
