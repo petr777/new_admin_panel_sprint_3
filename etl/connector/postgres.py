@@ -1,5 +1,5 @@
 import psycopg2
-from psycopg2.extras import DictCursor
+from psycopg2.extras import RealDictCursor
 import datetime
 from etl.settings import POSTGRES_DSL
 
@@ -13,7 +13,7 @@ class PostgresBase:
 
     def __enter__(self):
         self.connection = psycopg2.connect(
-            **self.dsl, cursor_factory=DictCursor
+            **self.dsl, cursor_factory=RealDictCursor
         )
         self.cursor = self.connection.cursor()
         return self
@@ -56,7 +56,6 @@ class PostgresMovies(PostgresBase):
             yield data
             skip += limit
 
-
     def get_data_from_elastic_movies(self, film_work_ids):
         sql = f"""
         SELECT
@@ -68,6 +67,7 @@ class PostgresMovies(PostgresBase):
             fw.created, 
             fw.modified, 
             pfw.role, 
+            pfw.id as pfw_id, 
             p.id, 
             p.full_name,
             g.name
@@ -85,4 +85,4 @@ class PostgresMovies(PostgresBase):
 
     def first_modified(self, table_name: str):
         sql = f"""SELECT modified FROM {table_name} ORDER BY modified;"""
-        return self.query(sql).fetchone()[0]
+        return self.query(sql).fetchone()
