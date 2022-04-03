@@ -1,20 +1,27 @@
 [tool.poetry]
-name = "ETL postgres_to_elasticsearch"
+name = "Movies"
 version = "0.0.1"
-description = "Отказоустойчивый перенос данных из Postgres в Elasticsearch"
-authors = ["Petr Mazurok <petr.mazurok@gmail.com>"]
+description = "Poetry, Django, Nginx, Postgres, Docker"
+authors = ["petr777 <mazurok.petr777@yahoo.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+python-dotenv = "^0.19.2"
+gunicorn='20.0.4'
 psycopg2-binary = "^2.9.3"
 pydantic = "^1.9.0"
-requests = "^2.27.1"
-loguru = "^0.6.0"
-flake8 = "^4.0.1"
-python-dotenv = "^0.20.0"
 elasticsearch = "^8.1.2"
 
+# django
+django = "^3.2"
+django-split-settings = "^1.1.0"
+django-debug-toolbar = "^3.2.4"
+requests = "^2.27.1"
+
+
 [tool.poetry.dev-dependencies]
+loguru = "^0.6.0"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
