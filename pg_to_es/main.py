@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Generator
 from state import JsonFileStorage, State
 from datetime import datetime, timezone
 from extractors.movies import PostgresMovies
@@ -12,6 +12,7 @@ from settings import pg_dsl, es_dsl, LocalStorage, batch_limit, initial_state
 import time
 
 
+
 class Role(Enum):
     ACTOR = 'actor'
     WRITER = 'writer'
@@ -22,7 +23,7 @@ class Role(Enum):
         return list(map(lambda r: r.value, Role))
 
 
-def transform(batch_data):
+def transform(batch_data: List[dict]) -> List[Movies]:
     trans = Transformation()
     good_data = []
     for _id, data in trans.groupby(batch_data, 'fw_id'):
@@ -45,7 +46,7 @@ def transform(batch_data):
     return good_data
 
 
-def extract(pg_db, state, table_name):
+def extract(pg_db, state, table_name: str) -> Generator[list]:
 
     def clean_arr_ids(ids):
         return [_id[0] for _id in ids]
@@ -60,6 +61,7 @@ def extract(pg_db, state, table_name):
         state_date=curremt_state,
         limit=batch_limit
     )
+
     for batch_ids in modified_ids:
 
         if table_name == 'person':

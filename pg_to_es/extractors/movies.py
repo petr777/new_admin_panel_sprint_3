@@ -1,14 +1,16 @@
 import datetime
 from pg_to_es.conectors.pg_db import PostgresBase
-
+from typing import List
+from psycopg2.extras import DictRow
 
 class PostgresMovies(PostgresBase):
 
-    def clean_arr_ids(self, ids):
+    def clean_arr_ids(self, ids) -> List[str]:
         return [_id[0] for _id in ids]
 
     def get_ids_gte_modified(
-            self, table_name: str,
+            self,
+            table_name: str,
             state_date: datetime,
             skip: int = 0,
             limit: int = 100):
@@ -20,10 +22,11 @@ class PostgresMovies(PostgresBase):
         return self.query(sql).fetchall()
 
     def get_all_ids_gte_modified(
-            self, table_name: str,
-            state_date: datetime, limit: int = 100):
+            self,
+            table_name: str,
+            state_date: datetime,
+            limit: int = 100) -> List[DictRow]:
         skip = 0
-
         while True:
             data = self.get_ids_gte_modified(
                 table_name=table_name,
@@ -36,7 +39,7 @@ class PostgresMovies(PostgresBase):
             yield data
             skip += limit
 
-    def get_person_data(self, ids):
+    def get_person_data(self, ids: List[str]) -> List[DictRow]:
         sql = """
             SELECT fw.id
             FROM content.film_work fw
@@ -47,7 +50,7 @@ class PostgresMovies(PostgresBase):
         sql = self.cursor.mogrify(sql, {'ids': tuple(ids)})
         return self.query(sql).fetchall()
 
-    def get_genre_data(self, ids):
+    def get_genre_data(self, ids: List[str]) -> List[DictRow]:
         sql = """
             SELECT fw.id
             FROM content.film_work fw
@@ -58,7 +61,7 @@ class PostgresMovies(PostgresBase):
         sql = self.cursor.mogrify(sql, {'ids': tuple(ids)})
         return self.query(sql).fetchall()
 
-    def get_data_from_elastic_movies(self, film_work_ids):
+    def get_data_from_elastic_movies(self, film_work_ids) -> List[DictRow]:
         sql = """SELECT
             fw.id as fw_id,
             fw.title,
@@ -82,6 +85,6 @@ class PostgresMovies(PostgresBase):
         sql = self.cursor.mogrify(sql, {'film_work_ids': tuple(film_work_ids)})
         return self.query(sql).fetchall()
 
-    def first_modified(self, table_name: str):
+    def first_modified(self, table_name: str) -> DictRow:
         sql = f"""SELECT modified FROM {table_name} ORDER BY modified;"""
         return self.query(sql).fetchone()

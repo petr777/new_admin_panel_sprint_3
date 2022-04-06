@@ -1,7 +1,7 @@
 import operator
 from enum import Enum
 from itertools import groupby
-from typing import List, Dict
+from typing import List, Dict, Generator
 
 
 class Role(Enum):
@@ -16,7 +16,7 @@ class Role(Enum):
 
 class Transformation:
 
-    def groupby(self, data, _id):
+    def groupby(self, data: List[Dict], _id: str) -> Generator[str, list]:
         data = sorted(data, key=operator.itemgetter(_id))
         for _id, new_data in groupby(data, key=operator.itemgetter(_id)):
             yield _id, list(new_data)
@@ -25,12 +25,12 @@ class Transformation:
             self, data: List[Dict],
             field: str,
             key: str,
-            filter: str):
+            filter: str) -> List:
 
         result = [item for item in data if item[field] == key]
         result = list({v[filter]: v for v in result}.values())
         return result
 
-    def uniq_by_key(self, data: List[Dict], filter: str):
+    def uniq_by_key(self, data: List[Dict], filter: str) -> List:
         result = list({v[filter]: v for v in data}.values())
         return [item[filter] for item in result]

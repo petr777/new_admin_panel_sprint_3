@@ -1,12 +1,12 @@
 from elasticsearch import helpers
-from typing import List
+from typing import List, Generator
 from pg_to_es.conectors.es_db import ElasticBase
 from loguru import logger
 
 
 class ElasticMovies(ElasticBase):
 
-    def generate_elastic_data(self, index, data: list):
+    def generate_elastic_data(self, index, data: list) -> Generator[dict]:
         for item in data:
             yield {
                 '_index': index,
@@ -16,7 +16,7 @@ class ElasticMovies(ElasticBase):
 
             }
 
-    def save_bulk(self, index, data: List[dict]):
+    def save_bulk(self, index, data: List[dict]) -> None:
         res, _ = helpers.bulk(
             self.client,
             self.generate_elastic_data(index, data)
