@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 .python-version
+pg_to_es/storage.json

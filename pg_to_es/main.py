@@ -12,7 +12,6 @@ from settings import pg_dsl, es_dsl, LocalStorage, batch_limit, initial_state
 import time
 
 
-
 class Role(Enum):
     ACTOR = 'actor'
     WRITER = 'writer'
@@ -46,7 +45,7 @@ def transform(batch_data: List[dict]) -> List[Movies]:
     return good_data
 
 
-def extract(pg_db, state, table_name: str) -> Generator[list]:
+def extract(pg_db, state, table_name: str) -> Generator:
 
     def clean_arr_ids(ids):
         return [_id[0] for _id in ids]
@@ -83,12 +82,10 @@ def load(es_db, data: List[Movies]):
 
 @backoff(logger=logger)
 def run():
-
     for table_name in ('film_work', 'genre', 'person'):
         storage = JsonFileStorage(LocalStorage)
         state = State(storage)
         with PostgresMovies(pg_dsl) as pg_db, ElasticMovies(es_dsl) as es_db:
-
             logger.info(f'Синхронизуруем таблицу {table_name}')
             for batch_data in extract(pg_db, state, table_name):
                 good_data = transform(batch_data)

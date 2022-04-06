@@ -6,7 +6,7 @@ from loguru import logger
 
 class ElasticMovies(ElasticBase):
 
-    def generate_elastic_data(self, index, data: list) -> Generator[dict]:
+    def generate_elastic_data(self, index, data: list) -> Generator:
         for item in data:
             yield {
                 '_index': index,

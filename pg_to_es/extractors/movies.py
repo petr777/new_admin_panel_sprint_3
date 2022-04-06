@@ -3,6 +3,7 @@ from pg_to_es.conectors.pg_db import PostgresBase
 from typing import List
 from psycopg2.extras import DictRow
 
+
 class PostgresMovies(PostgresBase):
 
     def clean_arr_ids(self, ids) -> List[str]:

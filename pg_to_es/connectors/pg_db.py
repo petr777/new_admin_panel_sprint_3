@@ -1,5 +1,7 @@
 import psycopg2
 from psycopg2.extras import DictCursor
+from utility.backoff import backoff
+from loguru import logger
 
 
 class PostgresBase:
@@ -7,6 +9,7 @@ class PostgresBase:
     def __init__(self, dsl):
         self.dsl = dsl
 
+    @backoff(logger=logger)
     def __enter__(self):
         self.connection = psycopg2.connect(
             **self.dsl, cursor_factory=DictCursor

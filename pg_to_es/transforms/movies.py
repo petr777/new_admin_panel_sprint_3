@@ -16,7 +16,7 @@ class Role(Enum):
 
 class Transformation:
 
-    def groupby(self, data: List[Dict], _id: str) -> Generator[str, list]:
+    def groupby(self, data: List[Dict], _id: str) -> Generator:
         data = sorted(data, key=operator.itemgetter(_id))
         for _id, new_data in groupby(data, key=operator.itemgetter(_id)):
             yield _id, list(new_data)
