@@ -39,6 +39,7 @@ services:
     env_file:
       - .env
 
+
   elasticsearch:
     image: elasticsearch:7.17.1
     container_name: elasticsearch
