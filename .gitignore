@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.python-version
+.idea
 pg_to_es/storage.json
