@@ -14,6 +14,9 @@ services:
       - .env
     depends_on:
       - db
+    networks:
+      - app-network
+
 
   nginx:
     build:
@@ -27,6 +30,8 @@ services:
       - 80:80
     depends_on:
       - web
+    networks:
+      - app-network
 
   db:
     image: postgres:13.0-alpine
@@ -38,7 +43,8 @@ services:
       - 5432:5432
     env_file:
       - .env
-
+    networks:
+      - app-network
 
   elasticsearch:
     image: elasticsearch:7.17.1
@@ -52,10 +58,29 @@ services:
       - 9200:9200
     env_file:
       - .env
+    networks:
+      - app-network
+
+  etl:
+    build:
+      context: ./pg_to_es
+      dockerfile: Dockerfile
+    container_name: etl_postgres_to_elastic
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - elasticsearch
+    command: python main.py
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   postgres_volume:
   elastic_volume:
   static_volume:
   media_volume:
-  redis_volume:

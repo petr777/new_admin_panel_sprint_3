@@ -5,26 +5,26 @@ description = "Poetry, Django, Nginx, Postgres, Docker"
 authors = ["petr777 <mazurok.petr777@yahoo.com>"]
 
 [tool.poetry.dependencies]
+# General
 python = "^3.8"
 python-dotenv = "^0.19.2"
-gunicorn='20.0.4'
+flake8 = "^4.0.1"
+loguru = "^0.6.0"
+
+# # django
+# django = "^3.2"
+# django-split-settings = "^1.1.0"
+# django-debug-toolbar = "^3.2.4"
+# gunicorn='20.0.4'
+
+# etl
 psycopg2-binary = "^2.9.3"
 pydantic = "^1.9.0"
-
-# django
-django = "^3.2"
-django-split-settings = "^1.1.0"
-django-debug-toolbar = "^3.2.4"
-requests = "^2.27.1"
-redis = "^4.2.2"
 elasticsearch = "7.17.1"
-elasticsearch-dsl = "^7.4.0"
-flake8 = "^4.0.1"
 
 
 [tool.poetry.dev-dependencies]
-loguru = "^0.6.0"
-
+requests = "^2.27.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

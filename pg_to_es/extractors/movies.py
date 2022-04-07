@@ -1,5 +1,5 @@
 import datetime
-from pg_to_es.conectors.pg_db import PostgresBase
+from connectors.pg_db import PostgresBase
 from typing import List
 from psycopg2.extras import DictRow
 

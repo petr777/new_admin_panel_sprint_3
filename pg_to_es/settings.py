@@ -17,7 +17,7 @@ pg_dsl = {
 }
 
 es_dsl = {
-    'hosts': ['localhost'],
+    'hosts': [os.environ.get('ELASTIC_HOST')],
     'http_auth': (
         os.environ.get('ELASTIC_USER'),
         os.environ.get('ELASTIC_PASSWORD')

@@ -73,7 +73,7 @@ curl -XPUT http://127.0.0.1:9200/movies -H 'Content-Type: application/json' -d'
         "type": "text",
         "analyzer": "ru_en"
       },
-      "full_name": {
+      "writers_names": {
         "type": "text",
         "analyzer": "ru_en"
       },

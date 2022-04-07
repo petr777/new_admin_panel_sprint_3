@@ -80,7 +80,6 @@ def load(es_db, data: List[Movies]):
     es_db.save_bulk('movies', data)
 
 
-@backoff(logger=logger)
 def run():
     for table_name in ('film_work', 'genre', 'person'):
         storage = JsonFileStorage(LocalStorage)
